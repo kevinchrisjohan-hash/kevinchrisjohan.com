@@ -293,9 +293,10 @@ footer .wrap{position:relative}
 .brands-d .bt-txt{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:.1em;font-size:clamp(20px,2.1vw,28px);color:#fff}
 .igl{display:inline-flex;align-items:center;gap:12px;margin-top:34px;padding:13px 22px 13px 16px;border:1.5px solid var(--ink);border-radius:40px;color:var(--ink);font-weight:600;font-size:14px;letter-spacing:.06em;transition:background .3s,color .3s,transform .3s}
 .igl:hover{background:var(--ink);color:var(--paper);transform:translateY(-2px)}
-.bm{overflow-x:auto!important;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y}
-.bm::-webkit-scrollbar{display:none}
-.bt,.rm .bt{animation:none!important;transform:none!important}
+.bm{overflow:hidden!important;touch-action:pan-y}
+.bt,.rm .bt{display:flex;width:max-content;animation:bm 70s linear infinite!important;will-change:transform;transform:translate3d(0,0,0)}
+.bm:hover .bt{animation-play-state:running!important}
+@keyframes bm{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
 .marq{overflow:hidden;background:var(--pop);color:var(--ink);padding:16px 0;border-block:1.5px solid var(--ink)}
 .marq .tk{display:flex;width:max-content;animation:mq 26s linear infinite;font-size:clamp(26px,3.6vw,46px);white-space:pre}
 .marq .tk span{display:inline-block}.marq em{font-family:'Instrument Serif',serif;font-style:normal;text-transform:none}
@@ -837,16 +838,6 @@ document.addEventListener('click',function(e){var t=e.target.closest('.sty-item 
 addEventListener('keydown',function(e){if(e.key==='Escape'){lb.classList.remove('open');closeMenu()}});
 document.addEventListener('play',function(e){$$('video').forEach(function(v){if(v!==e.target)v.pause()})},true);
 })();
-(function(){var bm=document.querySelector('.bm');if(!bm)return;var half=0,pos=0,paused=false,last=0,rsm=null;
-function measure(){var s=bm.querySelectorAll('.bs');half=s.length>1?s[1].offsetLeft-s[0].offsetLeft:bm.scrollWidth/2}
-function tick(ts){if(!last)last=ts;var dt=Math.min(64,ts-last);last=ts;
-if(!paused&&half>0&&bm.offsetParent!==null){pos=bm.scrollLeft+dt*0.045;if(pos>=half)pos-=half;bm.scrollLeft=pos}
-requestAnimationFrame(tick)}
-function hold(){paused=true;clearTimeout(rsm)}function release(){clearTimeout(rsm);rsm=setTimeout(function(){paused=false},1800)}
-bm.addEventListener('touchstart',hold,{passive:true});bm.addEventListener('touchend',release,{passive:true});bm.addEventListener('touchcancel',release,{passive:true});
-bm.addEventListener('mouseenter',hold);bm.addEventListener('mouseleave',release);
-bm.addEventListener('scroll',function(){if(bm.scrollLeft>=half&&half>0)bm.scrollLeft-=half;else if(bm.scrollLeft<=0&&paused&&half>0)bm.scrollLeft+=half},{passive:true});
-addEventListener('resize',measure);addEventListener('load',measure);setTimeout(measure,500);setTimeout(measure,2500);measure();requestAnimationFrame(tick)})();
 </script>
 </body>
 </html>
